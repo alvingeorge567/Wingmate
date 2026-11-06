@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wingmate</string>
+    <string name="keyboard_name">Wingmate Keyboard</string>
+    <string name="reader_name">Wingmate chat reader</string>
+    <string name="reader_description">When you tap ✨ Suggest on the Wingmate keyboard, this reads the messages visible on screen in the chat apps you allow, so it can suggest replies. It never reads in the background, never reads other apps, and nothing is stored.</string>
+    <string name="test_chat_title">Test chat</string>
+</resources>

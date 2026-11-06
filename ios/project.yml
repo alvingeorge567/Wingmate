@@ -1,0 +1,61 @@
+# Generate the Xcode project on a Mac with:  brew install xcodegen && xcodegen
+# Then open Wingmate.xcodeproj, set your Team in Signing for both targets, and
+# change the App Group ID below (and in Shared/SharedSettings.swift) to one you own.
+name: Wingmate
+options:
+  bundleIdPrefix: com.wingmate
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Wingmate:
+    type: application
+    platform: iOS
+    sources: [Wingmate, Shared]
+    info:
+      path: Wingmate/Info.plist
+      properties:
+        CFBundleDisplayName: Wingmate
+        UILaunchScreen: {}
+        WingmateBackendURL: "http://localhost:8787"
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+    entitlements:
+      path: Wingmate/Wingmate.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.wingmate.shared]
+    dependencies:
+      - target: WingmateKeyboard
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wingmate.app
+  WingmateKeyboard:
+    type: app-extension
+    platform: iOS
+    sources: [WingmateKeyboard, Shared]
+    info:
+      path: WingmateKeyboard/Info.plist
+      properties:
+        CFBundleDisplayName: Wingmate Keyboard
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
+          NSExtensionAttributes:
+            IsASCIICapable: false
+            PrefersRightToLeft: false
+            PrimaryLanguage: en-US
+            # Needed for network access (suggestions) and reading the clipboard.
+            RequestsOpenAccess: true
+    entitlements:
+      path: WingmateKeyboard/WingmateKeyboard.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.wingmate.shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wingmate.app.keyboard
